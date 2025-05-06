@@ -1,159 +1,264 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>БОГДАН САЙТ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Неоновая Картинка</title>
   <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       margin: 0;
       overflow: hidden;
-      background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Flag_of_Kazakhstan.svg/320px-Flag_of_Kazakhstan.svg.png');
+      background-size: cover;
+      background-position: center;
       height: 100vh;
       font-family: sans-serif;
-      touch-action: manipulation;
+      transition: background-image 0.3s ease;
+      touch-action: none;
     }
 
-    button {
-      font-size: 2rem;
-      padding: 20px 40px;
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
+    #container {
+      position: absolute;
+      touch-action: none;
+    }
+
+    #mainImage {
+      width: min(80vw, 400px);
+      max-width: 100%;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 0 20px #00ffff);
+      border-radius: 20px;
+    }
+
+    .chicken, .nuke, .pooplet, .bomb, .explosion {
+      position: absolute;
+      pointer-events: none;
       z-index: 100;
+    }
+
+    .chicken, .pooplet {
+      width: 40px;
+    }
+
+    .nuke, .bomb, .explosion {
+      width: 80px;
+    }
+
+    .chicken {
+      animation: fly 1s ease-out forwards;
+    }
+
+    .nuke {
+      animation: fall 2s ease-in forwards;
+    }
+
+    .bomb {
+      animation: fallBomb 3s ease-in forwards;
+    }
+
+    .explosion {
+      animation: boom 1s ease-out forwards;
+    }
+
+    .pooplet {
+      animation: fallSlow 3s ease-in forwards;
+    }
+
+    @keyframes fly {
+      0% { opacity: 0; transform: translateY(0) scale(0.5); }
+      100% { opacity: 1; transform: translateY(-150px) scale(1); }
+    }
+
+    @keyframes fall {
+      0% { opacity: 0; transform: translateY(-200px) scale(0.5); }
+      100% { opacity: 1; transform: translateY(400px) scale(1); }
+    }
+
+    @keyframes fallBomb {
+      0% { transform: translateY(-300px); opacity: 0; }
+      100% { transform: translateY(600px); opacity: 1; }
+    }
+
+    @keyframes boom {
+      0% { opacity: 1; transform: scale(0.2); }
+      100% { opacity: 0; transform: scale(2); }
+    }
+
+    @keyframes fallSlow {
+      0% { opacity: 0; transform: translateY(-300px) scale(0.3); }
+      100% { opacity: 1; transform: translateY(500px) scale(0.8); }
     }
 
     .alertBox {
       position: absolute;
-      background: white;
-      border: 3px solid red;
+      background: red;
+      color: white;
       padding: 10px;
-      text-align: center;
-      font-size: 1.2rem;
+      font-size: clamp(10px, 4vw, 16px);
       font-weight: bold;
-      z-index: 1000;
-      animation: grow 3s linear forwards;
-      max-width: 200px;
+      border: 2px solid yellow;
+      border-radius: 10px;
+      animation: flash 0.5s alternate infinite;
+      z-index: 9999;
+      max-width: 90vw;
     }
 
-    .alertBox img {
-      width: 100%;
-      height: auto;
-    }
-
-    .sausage {
+    .alertImage {
       position: absolute;
-      width: 60px;
-      top: 0;
-      left: 0;
-      animation: floatDown 3s ease-in forwards;
-      pointer-events: none;
+      width: 120px;
+      z-index: 9998;
+      border: 3px solid yellow;
+      border-radius: 12px;
     }
 
-    .chicken {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 150px;
-      cursor: pointer;
-      z-index: 2000;
-    }
-
-    .spamText {
-      position: absolute;
-      color: yellow;
-      font-size: 10px;
-      font-weight: bold;
-      animation: floatText 3s ease-out forwards;
-      pointer-events: none;
-    }
-
-    .funImg {
-      position: absolute;
-      width: 100px;
-      animation: floatFun 4s ease-out forwards;
-    }
-
-    @keyframes grow {
-      0% { transform: scale(0.5); }
-      100% { transform: scale(1.3); }
-    }
-
-    @keyframes floatDown {
-      0% { transform: translateY(-100px); opacity: 0; }
-      100% { transform: translateY(500px); opacity: 1; }
-    }
-
-    @keyframes floatText {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-100px); opacity: 0; }
-    }
-
-    @keyframes floatFun {
-      0% { transform: scale(0.2) rotate(0deg); opacity: 0; }
-      100% { transform: scale(1) rotate(360deg); opacity: 1; }
+    @keyframes flash {
+      from { opacity: 1; }
+      to { opacity: 0.3; }
     }
   </style>
 </head>
 <body>
-  <button onclick="summonBogdan()">ТИК</button>
-  <img class="chicken" src="https://forkids.org.ua/wp-content/uploads/kurochka-ryaba.png" onclick="spamTexts()" />
+  <div id="container">
+    <img id="mainImage" src="https://tse1.explicit.bing.net/th/id/OIP.YZGmQUZUX48-WiAvzIn9fwHaEc?cb=iwp1&rs=1&pid=ImgDetMain" alt="Neon Art">
+  </div>
+
+  <audio id="sirenSound" src="https://www.soundjay.com/misc/sounds/siren-noise-01.mp3" preload="auto"></audio>
 
   <script>
-    function summonBogdan() {
-      const box = document.createElement('div');
-      box.className = 'alertBox';
-      box.innerHTML = `БОГДАН ЗА ТОБОЮ ПАТРУЛЬ ЇДЕ<br><img src="https://tse1.explicit.bing.net/th/id/OIP._6M70zRlRLup-jhPxKj01QHaEK?cb=iwp1&rs=1&pid=ImgDetMain" alt="patrol">`;
-      box.style.left = Math.random() * (window.innerWidth - 200) + 'px';
-      box.style.top = Math.random() * (window.innerHeight - 150) + 'px';
-      document.body.appendChild(box);
+    const container = document.getElementById('container');
+    const mainImage = document.getElementById('mainImage');
+    const siren = document.getElementById('sirenSound');
+    const body = document.body;
 
-      for (let i = 0; i < 20; i++) {
-        const sausage = document.createElement('img');
-        sausage.src = 'https://3dlancer.net/upload/modelimages/954/20954/3D-model-sausage-81175-xxl.jpg';
-        sausage.className = 'sausage';
-        sausage.style.left = Math.random() * window.innerWidth + 'px';
-        document.body.appendChild(sausage);
-        setTimeout(() => sausage.remove(), 3000);
+    let offsetX, offsetY;
+    let isDragging = false;
+    let frame = 0;
+    let backgroundChanged = false;
+
+    const isMobile = window.innerWidth < 768;
+    const chickenLimit = isMobile ? 1 : 3;
+
+    const spawnChicken = (x, y) => {
+      for (let i = 0; i < chickenLimit; i++) {
+        const chicken = document.createElement('img');
+        chicken.src = 'https://th.bing.com/th/id/R.a646853baf672d6554d06bb0e1799945?rik=hKhnZO83dJpNtA&pid=ImgRaw&r=0';
+        chicken.className = 'chicken';
+        chicken.style.left = `${x - 20 + i * 10}px`;
+        chicken.style.top = `${y - 20}px`;
+        document.body.appendChild(chicken);
+        setTimeout(() => chicken.remove(), 1000);
       }
+    };
 
-      setTimeout(() => box.remove(), 5000);
+    const spawnNuke = (x) => {
+      const nuke = document.createElement('img');
+      nuke.src = 'https://cdn.hum3d.com/wp-content/uploads/Aircraft/Little_Boy_nuclear_bomb/Little_Boy_nuclear_bomb_1000_0005.jpg';
+      nuke.className = 'bomb';
+      nuke.style.left = `${x - 40}px`;
+      nuke.style.top = `-150px`;
+      document.body.appendChild(nuke);
+
+      setTimeout(() => {
+        if (!backgroundChanged) {
+          body.style.backgroundImage = `url('https://3dlancer.net/upload/modelimages/954/20954/3D-model-sausage-81175-xxl.jpg')`;
+          backgroundChanged = true;
+        }
+        const explosion = document.createElement('img');
+        explosion.src = 'https://th.bing.com/th/id/OIP.uMPXhgYDNMG9L8S-kHZkAwHaE8?w=265&h=180&c=7&r=0&o=7&cb=iwp1&pid=1.7&rm=3';
+        explosion.className = 'explosion';
+        explosion.style.left = `${x - 60}px`;
+        explosion.style.top = `400px`;
+        document.body.appendChild(explosion);
+        setTimeout(() => explosion.remove(), 1000);
+        nuke.remove();
+      }, 3000);
+    };
+
+    const spawnPoop = () => {
+      const poop = document.createElement('img');
+      poop.src = 'https://tse2.mm.bing.net/th/id/OIP.nOBg56h0CXE78hrZBzyRvgHaGS?cb=iwp1&rs=1&pid=ImgDetMain';
+      poop.className = 'pooplet';
+      poop.style.left = `${Math.random() * window.innerWidth}px`;
+      poop.style.top = `-100px`;
+      document.body.appendChild(poop);
+      setTimeout(() => poop.remove(), 3000);
+    };
+
+    setInterval(() => {
+      spawnPoop();
+    }, isMobile ? 1000 : 500);
+
+    function showAlertWave() {
+      const count = isMobile ? 10 : 20;
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const alert = document.createElement('div');
+          alert.className = 'alertBox';
+          alert.textContent = '!!!!КОТ ПРИЛІТАЄ У ТЕБЕ Є 5 СЕКУНД ЩОБ ВИЖИТИ!!!!';
+          alert.style.left = `${Math.random() * (window.innerWidth - 300)}px`;
+          alert.style.top = `${Math.random() * (window.innerHeight - 100)}px`;
+          document.body.appendChild(alert);
+
+          const image = document.createElement('img');
+          image.src = 'https://i.ytimg.com/vi/_EhyWqnP2qk/maxresdefault.jpg';
+          image.className = 'alertImage';
+          image.style.left = `${Math.random() * (window.innerWidth - 150)}px`;
+          image.style.top = `${Math.random() * (window.innerHeight - 150)}px`;
+          document.body.appendChild(image);
+
+          setTimeout(() => {
+            alert.remove();
+            image.remove();
+          }, 5000);
+
+          siren.volume = 1.0;
+          siren.currentTime = 0;
+          siren.play();
+
+        }, i * 300);
+      }
     }
 
-    function spamTexts() {
-      for (let i = 0; i < 200; i++) {
-        const text = document.createElement('div');
-        text.className = 'spamText';
-        text.innerText = 'БОГДАН ЇДЕ';
-        text.style.left = Math.random() * window.innerWidth + 'px';
-        text.style.top = Math.random() * window.innerHeight + 'px';
-        document.body.appendChild(text);
-        setTimeout(() => text.remove(), 3000);
-      }
+    setInterval(showAlertWave, 10000);
 
-      for (let i = 0; i < 10; i++) {
-        const img1 = document.createElement('img');
-        img1.src = 'https://tse4.mm.bing.net/th/id/OIP.uy1y2Bd6OK8MOIyEiIKW1wHaHa?cb=iwp1&rs=1&pid=ImgDetMain';
-        img1.className = 'funImg';
-        img1.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-        img1.style.top = Math.random() * (window.innerHeight - 100) + 'px';
-        document.body.appendChild(img1);
-        setTimeout(() => img1.remove(), 4000);
+    const moveHandler = (x, y) => {
+      container.style.left = `${x - offsetX}px`;
+      container.style.top = `${y - offsetY}px`;
+      spawnChicken(x, y);
+      if (frame % 10 === 0) spawnNuke(x);
+      frame++;
+    };
 
-        const img2 = document.createElement('img');
-        img2.src = 'https://cdn.pixabay.com/photo/2015/05/26/19/27/dog-785200_960_720.jpg';
-        img2.className = 'funImg';
-        img2.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-        img2.style.top = Math.random() * (window.innerHeight - 100) + 'px';
-        document.body.appendChild(img2);
-        setTimeout(() => img2.remove(), 4000);
+    // Mouse
+    mainImage.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - container.offsetLeft;
+      offsetY = e.clientY - container.offsetTop;
+    });
+    document.addEventListener('mouseup', () => isDragging = false);
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) moveHandler(e.clientX, e.clientY);
+    });
+
+    // Touch
+    mainImage.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      const touch = e.touches[0];
+      offsetX = touch.clientX - container.offsetLeft;
+      offsetY = touch.clientY - container.offsetTop;
+    });
+    document.addEventListener('touchend', () => isDragging = false);
+    document.addEventListener('touchmove', (e) => {
+      if (isDragging) {
+        const touch = e.touches[0];
+        moveHandler(touch.clientX, touch.clientY);
       }
-    }
+    });
   </script>
 </body>
 </html>
